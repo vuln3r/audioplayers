@@ -392,6 +392,10 @@ float _playbackRate = 1.0;
 	if (_infoCenter != nil) {
 		_infoCenter.setNowPlayingInfo = playingInfo;
 	}
+	
+	[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+	[[AVAudioSession sharedInstance] setActive:YES error:&error];
+
 }
 
 -(void) setUrl: (NSString*) url
@@ -417,8 +421,6 @@ isNotification: (bool) respectSilence
 	//  if (!success) {
 	//    NSLog(@"Error setting speaker: %@", error);
 	//  }
-	[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-	[[AVAudioSession sharedInstance] setActive:YES error:&error];
 	
 	
 	if (!playerInfo || ![url isEqualToString:playerInfo[@"url"]]) {
