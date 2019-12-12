@@ -391,6 +391,7 @@ float _playbackRate = 1.0;
 	
 	if (_infoCenter != nil) {
 		_infoCenter.setNowPlayingInfo = playingInfo;
+		_infoCenter.nowPlayingInfo = playingInfo;
 	}
 	
 	[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
