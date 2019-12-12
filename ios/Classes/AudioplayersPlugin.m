@@ -392,7 +392,7 @@ float _playbackRate = 1.0;
   NSLog(@"setNotification done");
 
   if (_infoCenter != nil) {
-    _infoCenter.nowPlayingInfo = playingInfo;
+    _infoCenter.setNowPlayingInfo = playingInfo;
   }
 }
 
@@ -412,13 +412,14 @@ float _playbackRate = 1.0;
 
   // code moved from play() to setUrl() to fix the bug of audio not playing in ios background
   NSError *error = nil;
-  AVAudioSessionCategory category = respectSilence ? AVAudioSessionCategoryAmbient : AVAudioSessionCategoryPlayback;
+//  AVAudioSessionCategory category = respectSilence ? AVAudioSessionCategoryAmbient : AVAudioSessionCategoryPlayback;
     
-  BOOL success = [[AVAudioSession sharedInstance] setCategory:category withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
+//  BOOL success = [[AVAudioSession sharedInstance] setCategory:category withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
     
-  if (!success) {
-    NSLog(@"Error setting speaker: %@", error);
-  }
+//  if (!success) {
+//    NSLog(@"Error setting speaker: %@", error);
+//  }
+         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
   [[AVAudioSession sharedInstance] setActive:YES error:&error];
   
 
