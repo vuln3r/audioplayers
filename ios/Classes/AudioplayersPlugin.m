@@ -421,8 +421,6 @@ float _playbackRate = 1.0;
  // }
  // [[AVAudioSession sharedInstance] setActive:YES error:&error];
          
-           [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-          [[AVAudioSession sharedInstance]setActive:YES error:nil];
   
 
   if (!playerInfo || ![url isEqualToString:playerInfo[@"url"]]) {
