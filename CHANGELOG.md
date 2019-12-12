@@ -1,6 +1,12 @@
 # Changelog
 
 ## [next]
+
+## audioplayers 0.13.5
+ - fixed crash on iOS when `startHeadlessService()` wasn't called on `AudioPlayer` (by @JesseScott)
+
+## audioplayers 0.13.4
+ - fixing missing cleanup on hot restart on Android
  - Background notification updates on iOS
 
 ## audioplayers 0.13.3

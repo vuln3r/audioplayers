@@ -298,6 +298,9 @@ class AudioPlayer {
   /// this should be called after initiating AudioPlayer only if you want to
   /// listen for notification changes in the background
   void startHeadlessService() {
+    if (this == null || playerId.isEmpty) {
+      return;
+    }
     // Start the headless audio service. The parameter here is a handle to
     // a callback managed by the Flutter engine, which allows for us to pass
     // references to our callbacks between isolates.
@@ -513,6 +516,15 @@ class AudioPlayer {
 
     final playerId = callArgs['playerId'] as String;
     final AudioPlayer player = players[playerId];
+
+    if (!kReleaseMode && Platform.isAndroid && player == null) {
+      final oldPlayer = AudioPlayer(playerId: playerId);
+      await oldPlayer.release();
+      oldPlayer.dispose();
+      players.remove(playerId);
+      return;
+    }
+
     final value = callArgs['value'];
 
     switch (call.method) {
