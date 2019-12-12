@@ -285,8 +285,6 @@ float _playbackRate = 1.0;
 	_imageUrl = imageUrl;
 	_duration = duration;
 	
-	[ self updateNotification:elapsedTime ];
-	
 	if (remoteCommandCenter == nil) {
 		remoteCommandCenter = [MPRemoteCommandCenter sharedCommandCenter];
 		
@@ -312,6 +310,8 @@ float _playbackRate = 1.0;
 		[togglePlayPauseCommand setEnabled:YES];
 		[togglePlayPauseCommand addTarget:self action:@selector(playOrPauseEvent:)];
 	}
+	
+	[ self updateNotification:elapsedTime ];
 }
 
 -(MPRemoteCommandHandlerStatus) skipBackwardEvent: (MPSkipIntervalCommandEvent *) skipEvent {
@@ -389,9 +389,9 @@ float _playbackRate = 1.0;
 	playingInfo[MPNowPlayingInfoPropertyPlaybackRate] = @(_playbackRate);
 	NSLog(@"setNotification done");
 	
-	//if (_infoCenter != nil) {
+	if (_infoCenter != nil) {
 		_infoCenter.setNowPlayingInfo = playingInfo;
-	//}
+	}
 }
 
 -(void) setUrl: (NSString*) url
