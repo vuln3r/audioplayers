@@ -338,14 +338,14 @@ class AudioPlayer {
   /// If [isLocal] is false, [url] must be a remote URL.
   Future<int> play(
     String url, {
-    bool isLocal = false,
+    bool isLocal,
     double volume = 1.0,
     // position must be null by default to be compatible with radio streams
     Duration position,
     bool respectSilence = false,
     bool stayAwake = false,
   }) async {
-    isLocal ??= false;
+    isLocal ??= url.startsWith("/") || url.startsWith("file://") || url.substring(1).startsWith(':\\');
     volume ??= 1.0;
     respectSilence ??= false;
     stayAwake ??= false;
@@ -444,9 +444,10 @@ class AudioPlayer {
     );
   }
 
-  /// Sets the playback rate - call this after first calling play() or resume(). Works only on iOS for now
+  /// Sets the playback rate - call this after first calling play() or resume().
   ///
   /// iOS has limits between 0.5 and 2x
+  /// Android SDK version should be 23 or higher.
   /// not sure if that's changed recently.
   Future<int> setPlaybackRate({double playbackRate = 1.0}) {
     return _invokeMethod('setPlaybackRate', {'playbackRate': playbackRate});

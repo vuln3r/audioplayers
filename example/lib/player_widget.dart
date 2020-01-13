@@ -8,23 +8,20 @@ enum PlayerState { stopped, playing, paused }
 
 class PlayerWidget extends StatefulWidget {
   final String url;
-  final bool isLocal;
   final PlayerMode mode;
 
   PlayerWidget(
       {@required this.url,
-      this.isLocal = false,
       this.mode = PlayerMode.MEDIA_PLAYER});
 
   @override
   State<StatefulWidget> createState() {
-    return _PlayerWidgetState(url, isLocal, mode);
+    return _PlayerWidgetState(url, mode);
   }
 }
 
 class _PlayerWidgetState extends State<PlayerWidget> {
   String url;
-  bool isLocal;
   PlayerMode mode;
 
   AudioPlayer _audioPlayer;
@@ -44,7 +41,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   get _durationText => _duration?.toString()?.split('.')?.first ?? '';
   get _positionText => _position?.toString()?.split('.')?.first ?? '';
 
-  _PlayerWidgetState(this.url, this.isLocal, this.mode);
+  _PlayerWidgetState(this.url, this.mode);
 
   @override
   void initState() {
@@ -191,16 +188,13 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         ? _position
         : null;
     final result =
-        await _audioPlayer.play(url, isLocal: isLocal, position: playPosition);
+        await _audioPlayer.play(url, position: playPosition);
     if (result == 1) setState(() => _playerState = PlayerState.playing);
 
-    // TODO implemented for iOS, waiting for android impl
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      // default playback rate is 1.0
-      // this should be called after _audioPlayer.play() or _audioPlayer.resume()
-      // this can also be called everytime the user wants to change playback rate in the UI
-      _audioPlayer.setPlaybackRate(playbackRate: 1.0);
-    }
+    // default playback rate is 1.0
+    // this should be called after _audioPlayer.play() or _audioPlayer.resume()
+    // this can also be called everytime the user wants to change playback rate in the UI
+    _audioPlayer.setPlaybackRate(playbackRate: 1.0);
 
     return result;
   }
