@@ -475,6 +475,7 @@ float _playbackRate = 1.0;
                           context:(void*)playerId];
       
   } else {
+	[self updateDuration:playerId];
     if ([[player currentItem] status ] == AVPlayerItemStatusReadyToPlay) {
       onReady(playerId);
     }
